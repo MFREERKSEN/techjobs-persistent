@@ -22,7 +22,7 @@ public class EmployerController {
     public String index(Model model) {
 
         model.addAttribute("title", "Employers");
-
+        model.addAttribute("employers",employerRepository.findAll());
         return "/employers";
     }
 
