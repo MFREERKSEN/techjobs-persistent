@@ -12,8 +12,8 @@ import java.util.List;
 @Entity
 public class Employer extends AbstractEntity {
 
-
-    @OneToMany
+//    @JoinColumn
+    @OneToMany(mappedBy = "employer")
     private List<Job> jobs;
 
     public Employer() {}

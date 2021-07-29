@@ -8,11 +8,6 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Job extends AbstractEntity{
 
-    @Id
-    @GeneratedValue
-    private int id;
-    private String name;
-
     @ManyToOne
     private Employer employer;
 
