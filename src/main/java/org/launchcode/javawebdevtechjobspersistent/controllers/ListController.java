@@ -1,8 +1,12 @@
 package org.launchcode.javawebdevtechjobspersistent.controllers;
 
+import org.launchcode.javawebdevtechjobspersistent.dataRepos.EmployerRepository;
 import org.launchcode.javawebdevtechjobspersistent.dataRepos.JobRepository;
+import org.launchcode.javawebdevtechjobspersistent.dataRepos.SkillRepository;
+import org.launchcode.javawebdevtechjobspersistent.models.Employer;
 import org.launchcode.javawebdevtechjobspersistent.models.Job;
 import org.launchcode.javawebdevtechjobspersistent.models.JobData;
+import org.launchcode.javawebdevtechjobspersistent.models.Skill;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,9 +25,15 @@ public class ListController {
     @Autowired
     private JobRepository jobRepository;
 
+    @Autowired
+    private SkillRepository skillRepository;
+
+    @Autowired
+    private EmployerRepository employerRepository;
+
     static HashMap<String, String> columnChoices = new HashMap<>();
 
-    public ListController () {
+    public ListController() {
 
         columnChoices.put("all", "All");
         columnChoices.put("employer", "Employer");
@@ -33,6 +43,10 @@ public class ListController {
 
     @RequestMapping("")
     public String list(Model model) {
+        model.addAttribute("columns", columnChoices);
+        model.addAttribute("employers", employerRepository.findAll());
+        model.addAttribute("skills", skillRepository.findAll());
+
 
         return "list";
     }
@@ -40,7 +54,7 @@ public class ListController {
     @RequestMapping(value = "jobs")
     public String listJobsByColumnAndValue(Model model, @RequestParam String column, @RequestParam String value) {
         Iterable<Job> jobs;
-        if (column.toLowerCase().equals("all")){
+        if (column.toLowerCase().equals("all")) {
             jobs = jobRepository.findAll();
             model.addAttribute("title", "All Jobs");
         } else {
@@ -48,6 +62,8 @@ public class ListController {
             model.addAttribute("title", "Jobs with " + columnChoices.get(column) + ": " + value);
         }
         model.addAttribute("jobs", jobs);
+//        I put this model.add in ?
+        model.addAttribute("column",columnChoices);
 
         return "list-jobs";
     }

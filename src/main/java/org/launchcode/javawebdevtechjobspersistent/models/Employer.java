@@ -6,6 +6,7 @@ import javax.persistence.OneToMany;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 //@JoinColumn
@@ -14,7 +15,7 @@ public class Employer extends AbstractEntity {
 
 //    @JoinColumn
     @OneToMany(mappedBy = "employer")
-    private List<Job> jobs;
+    private List<Job> jobs = new ArrayList<>();
 
     public Employer() {}
 
@@ -30,4 +31,10 @@ public class Employer extends AbstractEntity {
     public void setLocation(String location) {
         this.location = location;
     }
+
+    public List<Job> getJobs() {
+        return jobs;
+    }
 }
+
+
